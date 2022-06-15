@@ -1,9 +1,8 @@
 'use strict';
-/*
-const getCountryData = function (country) {
-  const btn = document.querySelector('.btn-country');
-  const countriesContainer = document.querySelector('.countries');
 
+const btn = document.querySelector('.btn-country');
+const countriesContainer = document.querySelector('.countries');
+/*
   ///////////////////////////////////////
 
   const request = new XMLHttpRequest();
@@ -32,12 +31,9 @@ const getCountryData = function (country) {
     countriesContainer.style.opacity = 1;
   });
 };
-*/
+
 
 const renderCountry = function (data, className) {
-  const btn = document.querySelector('.btn-country');
-  const countriesContainer = document.querySelector('.countries');
-
   const html = `
     <article class="${className}">
     <img class="country__img" src="${data.flag}" />
@@ -90,6 +86,8 @@ const getCountryAndNeighbour = function (country) {
 // getCountryAndNeighbour('portugal');
 getCountryAndNeighbour('usa');
 
+//Welcome to Callback Hell
+
 setTimeout(() => {
   console.log('1 second passed');
   setTimeout(() => {
@@ -102,3 +100,13 @@ setTimeout(() => {
     }, 1000);
   }, 1000);
 }, 1000);
+*/
+// Promises and the Fetch API
+
+// Old Way of doing
+// const request = new XMLHttpRequest();
+// request.open('GET', `https://restcountries.com/v2/name/${country}`);
+// request.send();
+
+const request = fetch('https://restcountries.com/v2/name/jamaica');
+console.log(request);
