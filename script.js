@@ -445,60 +445,79 @@ GOOD LUCK 😀
 //   })
 //   .catch(err => console.error(err));
 
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
-// fetch(`https://restcountries.com/v2/name/${country}`).then(res => console.log(res))
-const whereAmI = async function (country) {
-  try {
-    // Geolocation
-    const pos = await getPosition();
-
-    const { latitude: lat, longitude: lng } = pos.coords;
-
-    // Reverse GeoCoding
-
-    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-    if (!resGeo.ok) throw new Error('Problem getting location data');
-
-    const dataGeo = await resGeo.json();
-
-    // Country data
-    const res = await fetch(
-      `https://restcountries.com/v2/name/${dataGeo.country}`
-    );
-    if (!resGeo.ok) throw new Error('Problem getting location data');
-    const data = await res.json();
-
-    renderCountry(data[0]);
-    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
-  } catch (err) {
-    console.error(`${err} XX`);
-    renderError(`XX ${err.message}`);
-
-    // Reject promise returned from sync function
-    throw err;
-  }
-};
-
-console.log('1: Will get location');
-// const city = whereAmI();
-// console.log(city);
-// whereAmI()
-//   .then(city => console.log(`2: ${city}`))
-//   .catch(err => console.error(`${err.message} XX`))
-//   .finally(() => {
-//     console.log('3. Finished getting location');
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
 //   });
+// };
+// // fetch(`https://restcountries.com/v2/name/${country}`).then(res => console.log(res))
+// const whereAmI = async function (country) {
+//   try {
+//     // Geolocation
+//     const pos = await getPosition();
 
-(async function () {
+//     const { latitude: lat, longitude: lng } = pos.coords;
+
+// Reverse GeoCoding
+
+//     const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     if (!resGeo.ok) throw new Error('Problem getting location data');
+
+//     const dataGeo = await resGeo.json();
+
+//     // Country data
+//     const res = await fetch(
+//       `https://restcountries.com/v2/name/${dataGeo.country}`
+//     );
+//     if (!resGeo.ok) throw new Error('Problem getting location data');
+//     const data = await res.json();
+
+//     renderCountry(data[0]);
+//     return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+//   } catch (err) {
+//     console.error(`${err} XX`);
+//     renderError(`XX ${err.message}`);
+
+//     // Reject promise returned from sync function
+//     throw err;
+//   }
+// };
+
+// console.log('1: Will get location');
+// // const city = whereAmI();
+// // console.log(city);
+// // whereAmI()
+// //   .then(city => console.log(`2: ${city}`))
+// //   .catch(err => console.error(`${err.message} XX`))
+// //   .finally(() => {
+// //     console.log('3. Finished getting location');
+// //   });
+
+// (async function () {
+//   try {
+//     const city = await whereAmI();
+//     console.log(`2: ${city}`);
+//   } catch (error) {
+//     return `${err.message} XX`;
+//   }
+//   console.log('3. Finished getting location');
+// })();
+
+const get3Countries = async function (c1, c2, c3) {
   try {
-    const city = await whereAmI();
-    console.log(`2: ${city}`);
-  } catch (error) {
-    return `${err.message} XX`;
+    // const [data1] = await getJSON(`https://restcountries.com/v2/name/${c1}`);
+    // const [data2] = await getJSON(`https://restcountries.com/v2/name/${c2}`);
+    // const [data3] = await getJSON(`https://restcountries.com/v2/name/${c3}`);
+
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v2/name/${c1}`),
+      getJSON(`https://restcountries.com/v2/name/${c2}`),
+      getJSON(`https://restcountries.com/v2/name/${c3}`),
+    ]);
+    console.log(data.map(d => d[0].capital));
+  } catch (err) {
+    console.error(err);
   }
-  console.log('3. Finished getting location');
-})();
+};
+
+get3Countries('portugal', 'canada', 'tanzania');
